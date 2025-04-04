@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
+import { FileUp } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -35,6 +36,7 @@ const VolunteerRegisterForm = () => {
     interests: [] as string[],
     governmentIdType: '',
     governmentIdNumber: '',
+    governmentIdProof: null as File | null,
     resume: null as File | null,
     introVideo: null as File | null,
   });
@@ -57,7 +59,7 @@ const VolunteerRegisterForm = () => {
     });
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'resume' | 'introVideo') => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, type: 'resume' | 'introVideo' | 'governmentIdProof') => {
     if (e.target.files && e.target.files[0]) {
       setFormData({
         ...formData,
@@ -100,6 +102,16 @@ const VolunteerRegisterForm = () => {
       return;
     }
 
+    if (!formData.governmentIdProof) {
+      toast({
+        title: "Government ID proof required",
+        description: "Please upload a scan or photo of your government ID.",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
     if (!formData.resume) {
       toast({
         title: "Resume required",
@@ -130,6 +142,7 @@ const VolunteerRegisterForm = () => {
         governmentId: {
           type: formData.governmentIdType,
           number: formData.governmentIdNumber,
+          proof: formData.governmentIdProof?.name,
         },
         resume: formData.resume?.name,
         introVideo: formData.introVideo?.name,
@@ -291,6 +304,26 @@ const VolunteerRegisterForm = () => {
                   onChange={handleInputChange}
                   required
                 />
+              </div>
+              
+              <div className="space-y-2 md:col-span-2">
+                <Label htmlFor="governmentIdProof">Upload ID Proof</Label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    id="governmentIdProof"
+                    type="file"
+                    accept="image/*,.pdf"
+                    className="flex-1"
+                    onChange={(e) => handleFileChange(e, 'governmentIdProof')}
+                    required
+                  />
+                  <div className="bg-brand-orange/10 text-brand-orange p-2 rounded-md">
+                    <FileUp className="h-5 w-5" />
+                  </div>
+                </div>
+                <p className="text-xs text-gray-500 mt-1">
+                  Upload a clear scan or photo of your ID. Max size: 5MB. Accepted formats: .jpg, .png, .pdf
+                </p>
               </div>
             </div>
           </CardContent>
