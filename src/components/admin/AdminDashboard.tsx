@@ -1,6 +1,5 @@
-
 import { useState } from 'react';
-import { Eye, CheckCircle, XCircle, User, Users, Calendar, Buildings } from 'lucide-react';
+import { Eye, CheckCircle, XCircle, User, Users, Calendar, Building } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
@@ -91,7 +90,7 @@ const AdminDashboard = () => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Organizations</CardTitle>
-            <Buildings className="h-4 w-4 text-muted-foreground" />
+            <Building className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{organizations.length}</div>
