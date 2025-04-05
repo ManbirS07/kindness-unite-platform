@@ -7,7 +7,8 @@ import {
   Search,
   User,
   Building2,
-  LogIn 
+  LogIn,
+  Info
 } from 'lucide-react';
 
 const Navbar = () => {
@@ -88,6 +89,7 @@ const Navbar = () => {
               className="block py-2 hover:text-brand-orange transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
+              <Info className="inline h-4 w-4 mr-2" />
               About Us
             </Link>
             <hr className="my-2" />
