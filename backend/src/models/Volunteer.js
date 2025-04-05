@@ -1,3 +1,4 @@
+
 import mongoose from 'mongoose';
 
 const volunteerSchema = new mongoose.Schema({
@@ -16,7 +17,7 @@ const volunteerSchema = new mongoose.Schema({
     govId: {
         idType: {
             type: String,
-            enum: ["Aadhar", "PAN", "Driving License", "Passport", "Voter ID"],
+            enum: ["Aadhar Card", "PAN Card", "Driving License", "Passport", "Voter ID"],
             required: true
         },
         idNumber: { type: String, required: true },

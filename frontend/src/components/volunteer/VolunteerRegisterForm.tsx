@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { CAUSES, ID_TYPES, SKILLS } from '@/types';
@@ -8,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { FileUp } from 'lucide-react';
+import axios from 'axios';
 import {
   Select,
   SelectContent,
@@ -133,32 +133,61 @@ const VolunteerRegisterForm = () => {
     }
 
     try {
-      // In a real app, we would send this data to an API
-      console.log("Form data to be submitted:", {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        interests: formData.interests,
-        governmentId: {
-          type: formData.governmentIdType,
-          number: formData.governmentIdNumber,
-          proof: formData.governmentIdProof?.name,
-        },
-        resume: formData.resume?.name,
-        introVideo: formData.introVideo?.name,
-      });
+      const formDataToSend = new FormData();
+      formDataToSend.append('fullName', formData.name);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('phoneNumber', formData.phone);
+      formDataToSend.append('password', formData.password);
+      formDataToSend.append('confirmPassword', formData.confirmPassword);
+      formDataToSend.append('interests', JSON.stringify(formData.interests));
+      formDataToSend.append('idType', formData.governmentIdType);
+      formDataToSend.append('idNumber', formData.governmentIdNumber);
       
-      toast({
-        title: "Registration successful!",
-        description: "Your volunteer account has been created.",
+      if (formData.governmentIdProof) {
+        formDataToSend.append('idProof', formData.governmentIdProof);
+      }
+      if (formData.resume) {
+        formDataToSend.append('resume', formData.resume);
+      }
+      if (formData.introVideo) {
+        formDataToSend.append('introVideo', formData.introVideo);
+      }
+
+      console.log('Submitting form data with files:', {
+        idProof: formData.governmentIdProof?.name,
+        resume: formData.resume?.name,
+        introVideo: formData.introVideo?.name
       });
 
-      // In a real app, we might redirect to a login page or dashboard
-    } catch (error) {
+      const response = await axios.post('http://localhost:5000/api/volunteer/register', formDataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      toast({
+        title: "Registration successful!",
+        description: response.data.message,
+      });
+
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        password: '',
+        confirmPassword: '',
+        interests: [],
+        governmentIdType: '',
+        governmentIdNumber: '',
+        governmentIdProof: null,
+        resume: null,
+        introVideo: null,
+      });
+    } catch (error: any) {
       console.error("Registration error:", error);
       toast({
         title: "Registration failed",
-        description: "There was a problem creating your account.",
+        description: error.response?.data?.message || "There was a problem creating your account.",
         variant: "destructive",
       });
     } finally {
