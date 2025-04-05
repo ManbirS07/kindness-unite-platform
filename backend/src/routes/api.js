@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router(); 
-import { getallevents } from '../controllers/eventController.js';
+import { getallevents, geteventbyid, createEvent} from '../controllers/eventController.js';
+import { getallOrganizations, getorgbyid } from '../controllers/organizationController.js';
 
 // Volunteer routes
 // router.post('/volunteers', volunteerController.createVolunteer);
@@ -10,20 +11,17 @@ import { getallevents } from '../controllers/eventController.js';
 // router.get('/volunteers', volunteerController.getAllVolunteers);
 
 // Organization routes 
-router.post('/organizations', (req, res) => {
+router.post('/register', (req, res) => {
     res.send('Create organization endpoint');
 });
-router.get('/organizations/:id', (req, res) => {
-    res.send('Get organization by ID endpoint');
-});
+router.get('/organizations', getallOrganizations);
+
+router.get('/organizations/:id',getorgbyid);
 
 // Event routes 
-
-router.get('/events',getallevents);
-
-// router.get('/events/:id', (req, res) => {
-//     res.send('Get event by ID endpoint');
-// });
+router.get('/events', getallevents);
+router.get('/events/:id', geteventbyid);
+router.post('/create-event',createEvent)
 
 // Admin routes 
 router.post('/admins', (req, res) => {
