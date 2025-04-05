@@ -30,7 +30,6 @@ const App = () => (
         <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
         <Route path="/volunteer-dashboard" element={<VolunteerDashboardPage />} />
         <Route path="/create-event" element={<CreateEventPage />} />
-        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </TooltipProvider>

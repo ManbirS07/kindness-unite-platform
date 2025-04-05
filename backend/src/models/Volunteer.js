@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const volunteerSchema = new mongoose.Schema({
     fullName: { type: String, required: true },
@@ -36,10 +36,10 @@ const volunteerSchema = new mongoose.Schema({
     workHistory: [{
         eventId: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
         organizationId: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
-        title: String,                  // Title of the event
-        cause: String,                  // Like 'Health', 'Education'
-        date: Date,                     // Date when the event occurred
-        hoursContributed: Number,       // Total hours volunteered
+        title: String,                  
+        cause: String,             
+        date: Date,                     
+        hoursContributed: Number,       
         feedbackFromOrg: {
             rating: { type: Number, min: 1, max: 5 },
             comment: String
@@ -48,4 +48,5 @@ const volunteerSchema = new mongoose.Schema({
     }]
 }, { timestamps: true });
 
-module.exports = mongoose.model('Volunteer', volunteerSchema);
+const Volunteer = mongoose.model('Volunteer', volunteerSchema);
+export default Volunteer;

@@ -1,7 +1,7 @@
-const Volunteer = require('../models/Volunteer');
+import Volunteer from '../models/Volunteer.js';
 
 // Create a new volunteer
-exports.createVolunteer = async (req, res) => {
+export const createVolunteer = async (req, res) => {
     try {
         const volunteer = new Volunteer(req.body);
         await volunteer.save();
@@ -12,7 +12,7 @@ exports.createVolunteer = async (req, res) => {
 };
 
 // Get volunteer details by ID
-exports.getVolunteerById = async (req, res) => {
+export const getVolunteerById = async (req, res) => {
     try {
         const volunteer = await Volunteer.findById(req.params.id);
         if (!volunteer) {
@@ -25,7 +25,7 @@ exports.getVolunteerById = async (req, res) => {
 };
 
 // Update volunteer information
-exports.updateVolunteer = async (req, res) => {
+export const updateVolunteer = async (req, res) => {
     try {
         const volunteer = await Volunteer.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
         if (!volunteer) {
@@ -38,7 +38,7 @@ exports.updateVolunteer = async (req, res) => {
 };
 
 // Get all volunteers
-exports.getAllVolunteers = async (req, res) => {
+export const getAllVolunteers = async (req, res) => {
     try {
         const volunteers = await Volunteer.find();
         res.json(volunteers);
@@ -48,7 +48,7 @@ exports.getAllVolunteers = async (req, res) => {
 };
 
 // Manage volunteer applications for events
-exports.applyForEvent = async (req, res) => {
+export const applyForEvent = async (req, res) => {
     const { volunteerId, eventId } = req.body;
     try {
         const volunteer = await Volunteer.findById(volunteerId);

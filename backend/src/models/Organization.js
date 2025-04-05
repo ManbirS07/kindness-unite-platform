@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const organizationSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -19,9 +19,7 @@ const organizationSchema = new mongoose.Schema({
   },
   logo_url: String,
   verified: { type: Boolean, default: false },
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now()}
 });
 
-const Organization = mongoose.model('Organization', organizationSchema);
-
-module.exports = Organization;
+export const Organization = mongoose.model('Organization', organizationSchema);
